@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>博士证书展示</title>
+    <style>
+      /* 基本布局与视觉风格 */
+      :root {
+        --paper: #ffffff;
+        --bgA: #f6efe2;
+        --bgB: #efe6d6;
+        --border: #8b5e2b; /* 深棕边框色，像纸张边缘 */
+        --accent: #b07a2b; /* 金棕色点缀 */
+        --text: #2a2a2a;
+        --muted: #5a524f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: "Times New Roman", Georgia, serif;
+        color: var(--text);
+        background: linear-gradient(
+          135deg,
+          var(--bgA) 0%,
+          var(--bgB) 60%,
+          #f6f0e0 100%
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+      }
+
+      /* 证书纸张容器 */
+      .certificate {
+        position: relative;
+        width: min(980px, 92vw);
+        padding: 28px 28px 24px;
+        background: var(--paper);
+        border: 12px solid var(--border);
+        border-radius: 14px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        background-image: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0.02),
+          rgba(0, 0, 0, 0) 40%
+        );
+      }
+
+      /* 水印（可选） */
+      .certificate::before {
+        content: "";
+        position: absolute;
+        top: 40px;
+        left: 50%;
+        width: 420px;
+        height: 420px;
+        transform: translateX(-50%);
+        background: url("data:image/jpeg;base64,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")
+          no-repeat center/cover;
+        opacity: 0.5;
+        pointer-events: none;
+        border-radius: 50%;
+        filter: saturate(0);
+      }
+
+      /* 顶部系饰（公章与标题） */
+      .certificate-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        padding-bottom: 8px;
+      }
+      .crest {
+        width: 72px;
+        height: 72px;
+      }
+      .title-area {
+        text-align: center;
+      }
+      .certificate-title {
+        font-family: "Times New Roman", Georgia, serif;
+        font-size: 34px;
+        color: #7a4a12;
+        margin: 0;
+        letter-spacing: 0.5px;
+      }
+      .certificate-sub {
+        font-size: 14px;
+        color: #6b5e4e;
+      }
+
+      /* 主区域：照片与信息 */
+      .certificate-body {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 28px;
+        align-items: start;
+        padding-top: 8px;
+      }
+
+      /* 照片框 */
+      .photo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+        border: 6px solid #c8a76a;
+        border-radius: 12px;
+        background: #fffaf0;
+        min-width: 0;
+      }
+      .photo-frame {
+        width: 180px;
+        height: 230px;
+        border-radius: 6px;
+        overflow: hidden;
+        background: #eae0d1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 0 1px #d5c6a6;
+      }
+      /* 替换此处为你的照片路径 */
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        /* 为无照片时代的替代文本（若你不打算放图片，可以使用下面的占位 SVG） */
+      }
+
+      /* 信息区域 */
+      .info {
+        font-size: 18px;
+        line-height: 1.8;
+        color: var(--text);
+      }
+      .info p {
+        margin: 6px 0;
+      }
+      .info .label {
+        font-weight: bold;
+        color: #3a2a12;
+        margin-right: 6px;
+      }
+      .info em {
+        font-style: normal;
+        color: #555;
+      }
+
+      /* 签发区与公章 */
+      .signature {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 18px;
+        border-top: 1px solid #e3d0b5;
+        margin-top: 14px;
+      }
+      .seal {
+        width: 110px;
+        height: 110px;
+        display: inline-block;
+      }
+      .sig-info {
+        text-align: left;
+        font-size: 14px;
+        color: #5b524f;
+      }
+      .sig-info .line {
+        height: 1px;
+        width: 200px;
+        background: #7a4a12;
+        margin: 8px 0;
+      }
+
+      /* 适配小屏幕 */
+      @media (max-width: 700px) {
+        .certificate {
+          padding: 22px;
+        }
+        .certificate-body {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .photo {
+          justify-content: center;
+        }
+        .signature {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="certificate" aria-label="博士证书展示">
+      <!-- 顶部：公章/ crest 与标题 -->
+      <div class="certificate-header" aria-label="证书头部">
+        <!-- 可替换为你自己的学校/机构印章 SVG 图形 -->
+        <svg class="crest" viewBox="0 0 64 64" aria-label="机构印章" role="img">
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+              <stop stop-color="#c99a3f" offset="0" />
+              <stop stop-color="#8a5a12" offset="1" />
+            </linearGradient>
+          </defs>
+          <circle
+            cx="32"
+            cy="32"
+            r="30"
+            fill="url(#grad)"
+            stroke="#7a4a12"
+            stroke-width="2"
+          />
+          <text
+            x="32"
+            y="37"
+            font-family="Times New Roman"
+            font-size="18"
+            text-anchor="middle"
+            fill="#fff"
+          >
+            DES
+          </text>
+        </svg>
+
+        <div class="title-area">
+          <h1 class="certificate-title">博士学位证书</h1>
+          <div class="certificate-sub">
+            颁发单位：长安大学 · 学院：计算机科学学院
+          </div>
+        </div>
+      </div>
+
+      <!-- 主区域：照片和信息 -->
+      <div class="certificate-body">
+        <!-- 照片（替换 src 为你自己的照片） -->
+        <div class="photo" aria-label="个人照片">
+          <div class="photo-frame">
+            <!-- 将下面的 img 的 src 替换为你的照片路径，如 photos/your_photo.jpg -->
+            <img src="./cd4c58202ab83d604501e170c98708e3.png" />
+          </div>
+        </div>
+
+        <!-- 信息文本 -->
+        <div class="info" aria-label="证书信息">
+          <p><span class="label">姓名：</span>范冰心</p>
+          <p><span class="label">学位：</span>博士</p>
+          <p><span class="label">专业：</span>计算机科学</p>
+          <p><span class="label">学校/院系：</span>某某大学，计算机科学学院</p>
+          <p><span class="label">入学时间：</span>2023年9月</p>
+          <p><span class="label">毕业时间：</span>2026年6月</p>
+          <p>
+            <span class="label">论文题目：</span
+            ><em>基于深度学习的智能系统研究</em>
+          </p>
+          <p><span class="label">导师评语：</span><em>力拔山兮气盖世</em></p>
+          <p><span class="label">证书编号：</span>2026-DOCTOR-001</p>
+          <p><span class="label">颁发地点：</span>陕西省西安市</p>
+        </div>
+      </div>
+
+      <!-- 签发区域（带公章与签名线） -->
+      <div class="signature" aria-label="签发信息">
+        <!-- 公章（可替换为真实公章SVG） -->
+        <div class="seal" aria-label="公章">
+          <svg
+            viewBox="0 0 120 120"
+            width="110"
+            height="110"
+            role="img"
+            aria-label="公章印章"
+          >
+            <defs>
+              <linearGradient id="sealG" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#e6a000" offset="0" />
+                <stop stop-color="#8a5a12" offset="1" />
+              </linearGradient>
+            </defs>
+            <circle
+              cx="60"
+              cy="60"
+              r="50"
+              fill="url(#sealG)"
+              stroke="#7a4a12"
+              stroke-width="3"
+            />
+            <text
+              x="60"
+              y="68"
+              text-anchor="middle"
+              font-family="Times New Roman"
+              font-size="18"
+              fill="#fff"
+            >
+              CERT
+            </text>
+            <circle
+              cx="60"
+              cy="60"
+              r="36"
+              fill="none"
+              stroke="#fff"
+              stroke-width="2"
+              opacity="0.75"
+            />
+          </svg>
+        </div>
+
+        <!-- 签发信息 -->
+        <div class="sig-info">
+          <div>颁发单位：长安大学</div>
+          <div>地点：陕西省西安市</div>
+          <div>日期：2026年2月25日</div>
+          <div class="line" aria-hidden="true"></div>
+          <div>校长签名：长安</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 使用提示：如需自定义，直接编辑上面的文本，例如姓名、专业、时间等 -->
+  </body>
+</html>
